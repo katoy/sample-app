@@ -9,22 +9,19 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <header style="margin-top:30px;">
-      <nav>
-        <% if user_signed_in? %>
-          Logged in as <strong><%= current_user.email %></strong>.
-          <%= link_to 'プロフィール変更', edit_user_registration_path %> |
-          <%= link_to "ログアウト", destroy_user_session_path %>
-        <% else %>
-          <%= link_to "サインアップ", new_user_registration_path %> |
-          <%= link_to "ログイン", new_user_session_path %>
-        <% end %>
-      </nav>
-    </header>
+  <body class="hold-transition skin-blue sidebar-mini">
+      <div class="wrapper">
+        <%= render "base/header" %>
+        <%= render "base/sidebar" %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+        <div class="content-wrapper">
+          <section class="content container-fluid">
+            <%= yield %>
+          </section>
+        </div>
+
+        <%= render "base/footer" %>
+        <%= render "base/control_sidebar" %>
+      <div>
   </body>
 </html>
