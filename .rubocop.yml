@@ -1,131 +1,301 @@
+require:
+  - rubocop-packaging
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
-    NewCops: enable
+  TargetRubyVersion: 2.7
+  # RuboCop has a bunch of cops enabled by default. This setting tells RuboCop
+  # to ignore them, so only the ones explicitly set in this file are enabled.
+  DisabledByDefault: true
+  SuggestExtensions: false
+  Exclude:
+    - '**/tmp/**/*'
+    - '**/templates/**/*'
+    - '**/vendor/**/*'
+    - 'actionpack/lib/action_dispatch/journey/parser.rb'
+    - 'actionmailbox/test/dummy/**/*'
+    - 'actiontext/test/dummy/**/*'
+    - '**/node_modules/**/*'
+
+Performance:
+  Exclude:
+    - '**/test/**/*'
+
+# Prefer assert_not over assert !
+Rails/AssertNot:
+  Include:
+    - '**/test/**/*'
+
+# Prefer assert_not_x over refute_x
+Rails/RefuteMethods:
+  Include:
+    - '**/test/**/*'
+
+Rails/IndexBy:
+  Enabled: true
+
+Rails/IndexWith:
+  Enabled: true
+
+# Prefer &&/|| over and/or.
+Style/AndOr:
+  Enabled: true
+
+# Align `when` with `case`.
+Layout/CaseIndentation:
+  Enabled: true
+
+Layout/ClosingHeredocIndentation:
+  Enabled: true
+
+# Align comments with method definitions.
+Layout/CommentIndentation:
+  Enabled: true
+
+Layout/ElseAlignment:
+  Enabled: true
+
+# Align `end` with the matching keyword or starting expression except for
+# assignments, where it should be aligned with the LHS.
+Layout/EndAlignment:
+  Enabled: true
+  EnforcedStyleAlignWith: variable
+  AutoCorrect: true
+
+Layout/EndOfLine:
+  Enabled: true
+
+Layout/EmptyLineAfterMagicComment:
+  Enabled: true
+
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: true
+  EnforcedStyle: only_before
+
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: true
+  Exclude:
+    - 'db/schema.rb'
+
+# In a regular class definition, no empty lines around the body.
+Layout/EmptyLinesAroundClassBody:
+  Enabled: true
+
+# In a regular method definition, no empty lines around the body.
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: true
+
+# In a regular module definition, no empty lines around the body.
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: true
+
+# Use Ruby >= 1.9 syntax for hashes. Prefer { a: :b } over { :a => :b }.
+Style/HashSyntax:
+  Enabled: true
+
+# Method definitions after `private` or `protected` isolated calls need one
+# extra level of indentation.
+Layout/IndentationConsistency:
+  Enabled: true
+  EnforcedStyle: indented_internal_methods
+
+# Two spaces, no tabs (for indentation).
+Layout/IndentationWidth:
+  Enabled: true
+
+Layout/LeadingCommentSpace:
+  Enabled: true
+
+Layout/SpaceAfterColon:
+  Enabled: true
+
+Layout/SpaceAfterComma:
+  Enabled: true
+
+Layout/SpaceAfterSemicolon:
+  Enabled: true
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  Enabled: true
+
+Layout/SpaceAroundKeyword:
+  Enabled: true
+
+Layout/SpaceAroundOperators:
+  Enabled: true
+
+Layout/SpaceBeforeComma:
+  Enabled: true
+
+Layout/SpaceBeforeComment:
+  Enabled: true
+
+Layout/SpaceBeforeFirstArg:
+  Enabled: true
+
+Style/DefWithParentheses:
+  Enabled: true
+
+# Defining a method with parameters needs parentheses.
+Style/MethodDefParentheses:
+  Enabled: true
 
 Style/FrozenStringLiteralComment:
   Enabled: true
+  EnforcedStyle: always
   Exclude:
-    - 'config.ru'
-    - 'Gemfile'
-    - 'Rakefile'
-    - 'app/channels/application_cable/channel.rb'
-    - 'app/channels/application_cable/connection.rb'
-    - 'app/controllers/application_controller.rb'
-    - 'app/jobs/application_job.rb'
-    - 'app/mailers/application_mailer.rb'
-    - 'app/models/application_record.rb'
-    - 'bin/*'
-    - 'config/**/*'
-    - 'db/schema.rb'
-
-Bundler/OrderedGems:
-  Exclude:
-    - 'Gemfile'
-
-Layout/ArgumentAlignment:
-  Exclude:
-    - 'bin/webpack'
-    - 'bin/webpack-dev-server'
-
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'bin/bundle'
-
-Layout/EmptyLines:
-  Exclude:
-    - 'db/migrate/*.rb'
-
-Layout/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'db/schema.rb'
-
-Layout/LineLength:
-  Max: 100
-  Exclude:
-    - 'db/**/*.rb'
+    - 'bin/**/*'
+    - 'db/*.rb'
     - 'config/**/*.rb'
-    - 'bin/*'
+    - 'db/migrate/*.rb'
+    - 'actionview/test/**/*.builder'
+    - 'actionview/test/**/*.ruby'
+    - 'actionpack/test/**/*.builder'
+    - 'actionpack/test/**/*.ruby'
+    - 'activestorage/db/migrate/**/*.rb'
+    - 'activestorage/db/update_migrate/**/*.rb'
+    - 'actionmailbox/db/migrate/**/*.rb'
+    - 'actiontext/db/migrate/**/*.rb'
 
-Layout/MultilineOperationIndentation:
+Style/RedundantFreeze:
+  Enabled: true
+
+# Use `foo {}` not `foo{}`.
+Layout/SpaceBeforeBlockBraces:
+  Enabled: true
   Exclude:
-    - 'bin/bundle'
+    - 'config/**/*.rb'
 
-Layout/SpaceInsideArrayLiteralBrackets:
-  Exclude:
-    - 'config/environments/production.rb'
+# Use `foo { bar }` not `foo {bar}`.
+Layout/SpaceInsideBlockBraces:
+  Enabled: true
+  EnforcedStyleForEmptyBraces: space
 
-Metrics/CyclomaticComplexity:
-  Max: 9
+# Use `{ a: 1 }` not `{a:1}`.
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: true
 
-Metrics/MethodLength:
-  Enabled: false
+Layout/SpaceInsideParens:
+  Enabled: true
 
-Metrics/PerceivedComplexity:
-  Enabled: false
+# Check quotes usage according to lint rule below.
+# Style/StringLiterals:
+#   Enabled: true
+#   EnforcedStyle: double_quotes
 
-Style/AsciiComments:
-  Enabled: false
+# Detect hard tabs, no hard tabs.
+Layout/IndentationStyle:
+  Enabled: true
 
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
+# Empty lines should not have any spaces.
+Layout/TrailingEmptyLines:
+  Enabled: true
 
-Style/Documentation:
-  Enabled: false
+# No trailing whitespace.
+Layout/TrailingWhitespace:
+  Enabled: true
 
-Style/EmptyMethod:
-  Enabled: false
+# Use quotes for string literals when they are enough.
+Style/RedundantPercentQ:
+  Enabled: true
 
-Style/ExpandPathArguments:
-  Exclude:
-    - 'bin/bundle'
-    - 'bin/rails'
-    - 'bin/rake'
+Lint/AmbiguousOperator:
+  Enabled: true
 
-Style/GlobalStdStream:
-  Exclude:
-    - 'config/environments/production.rb'
+Lint/AmbiguousRegexpLiteral:
+  Enabled: true
 
-Style/IfUnlessModifier:
-  Exclude:
-    - 'bin/bundle'
+Lint/DuplicateRequire:
+  Enabled: true
 
-Style/NumericLiterals:
-  Exclude:
-    - 'db/schema.rb'
+Lint/ErbNewArguments:
+  Enabled: true
 
-Style/PerlBackrefs:
-  Exclude:
-    - 'bin/bundle'
+# Use my_method(my_arg) not my_method( my_arg ) or my_method my_arg.
+Lint/RequireParentheses:
+  Enabled: true
+
+Lint/RedundantStringCoercion:
+  Enabled: true
+
+Lint/UriEscapeUnescape:
+  Enabled: true
+
+Lint/UselessAssignment:
+  Enabled: true
+
+Lint/DeprecatedClassMethods:
+  Enabled: true
+
+Style/ParenthesesAroundCondition:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/RedundantBegin:
+  Enabled: true
   Exclude:
-    - 'bin/yarn'
+    - 'bin/*'
 
-Style/RedundantFetchBlock:
-  Exclude:
-    - 'config/puma.rb'
+Style/RedundantReturn:
+  Enabled: true
+  AllowMultipleReturnValues: true
 
-Style/SpecialGlobalVars:
-  EnforcedStyle: use_perl_names
+Style/RedundantRegexpEscape:
+  Enabled: true
 
-Style/StderrPuts:
-  Exclude:
-    - 'bin/yarn'
+Style/Semicolon:
+  Enabled: true
+  AllowAsExpressionSeparator: true
 
-Style/StringLiterals:
-  Exclude:
-    - 'bin/bundle'
-    - 'bin/webpack'
-    - 'bin/webpack-dev-server'
-    - 'bin/yarn'
-    - 'config/application.rb'
-    - 'config/environments/production.rb'
-    - 'config/puma.rb'
-    - 'config/spring.rb'
-    - 'db/schema.rb'
-    - 'config/puma.rb'
-    - 'spec/rails_helper.rb'
+# Prefer Foo.method over Foo::method
+Style/ColonMethodCall:
+  Enabled: true
 
-Style/SymbolArray:
-  EnforcedStyle: brackets
+Style/TrivialAccessors:
+  Enabled: true
+
+Performance/BindCall:
+  Enabled: true
+
+Performance/FlatMap:
+  Enabled: true
+
+Performance/MapCompact:
+  Enabled: true
+
+Performance/SelectMap:
+  Enabled: true
+
+Performance/RedundantMerge:
+  Enabled: true
+
+Performance/StartWith:
+  Enabled: true
+
+Performance/EndWith:
+  Enabled: true
+
+Performance/RegexpMatch:
+  Enabled: true
+
+Performance/ReverseEach:
+  Enabled: true
+
+Performance/StringReplacement:
+  Enabled: true
+
+Performance/UnfreezeString:
+  Enabled: true
+
+Performance/DeletePrefix:
+  Enabled: true
+
+Performance/DeleteSuffix:
+  Enabled: true
