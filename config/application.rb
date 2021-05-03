@@ -32,13 +32,5 @@ module SampleApp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-
-    config.to_prepare do
-      Devise::SessionsController.layout proc { |controller| user_signed_in? ? 'application' : 'devise' }
-      Devise::RegistrationsController.layout proc { |controller| user_signed_in? ? 'application' : 'devise' }
-      Devise::ConfirmationsController.layout 'devise'
-      Devise::UnlocksController.layout 'devise'
-      Devise::PasswordsController.layout 'devise'
-    end
   end
 end

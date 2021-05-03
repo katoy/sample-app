@@ -1,27 +1,30 @@
-<%= form_with(model: task, local: true) do |form| %>
-  <% if task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
-
-      <ul>
-        <% task.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<section class="content">
+  <%= form_with(model: task, local: true) do |form| %>
+    <% if task.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(user.errors.count, "error") %> prohibited this task from being saved:</h2>
+        <ul>
+          <% user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="card-body">
+      <div class="form-group col-sm-6">
+        <%= form.label :名前： %><span class="badge badge-danger">必須</span>
+        <%= form.text_field :name, class:"form-control", placeholder:"名前を入力してください" %>
+      </div>
+      <div class="form-group col-sm-6">
+        <b>ステータス：</b>
+        <div class="form-check">
+          <%= form.check_box :status, class:"form-check-input" %>
+          <%= form.label :終了, class:"form-check-label" %>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <%= form.submit "　保存　", class:"btn btn-primary" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.check_box :status %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</section>

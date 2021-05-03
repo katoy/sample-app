@@ -1,14 +1,36 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @task.name %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @task.status %>
-</p>
-
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        <h1>タスク情報詳細</h1>
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><%= link_to 'タスク一覧', tasks_path %></li>
+            <li class="breadcrumb-item active">タスク情報詳細</li>
+        </ol>
+        </div>
+    </div>
+  </div>
+</section>
+<div class="card-body">
+  <p>
+    <strong>名前：</strong>
+    <div class="text-sm-left">
+      <%= @task.name %>
+    </div>
+  </p>
+  <p>
+    <strong>ステータス：</strong>
+    <div class="text-sm-left">
+      <% if @task.status %>
+        終了
+      <% else %>
+        未完
+      <% end %>
+    </div>
+  </p>
+</div>
+<div class="card-footer">
+  <%= link_to '　戻る　', tasks_path, class:"btn btn-outline-primary" %>
+</div>
