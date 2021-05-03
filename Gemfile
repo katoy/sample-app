@@ -55,6 +55,8 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-packaging', require: false
   gem 'rubocop-rspec'
+
+  gem 'annotate'
 end
 
 group :test do

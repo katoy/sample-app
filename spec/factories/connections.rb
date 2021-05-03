@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :connection do
-    user { nil }
-    task { nil }
+    user
+    task
   end
 end
