@@ -23,5 +23,3 @@ document.addEventListener("turbolinks:load", () => {
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-
-import "@fortawesome/fontawesome-free/js/all";
