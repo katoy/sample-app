@@ -16,9 +16,10 @@
 #  index_tasks_on_status  (status)
 #
 class Task < ApplicationRecord
-  has_many :connections
-  has_many :users, through: :connections, dependent: :destroy
+  has_many :connections, dependent: :destroy
+  has_many :users, through: :connections
 
   validates :name,
-    presence: true, length: { in: 1..100 }, uniqueness: true
+    presence: true, length: { in: 1..100 },
+    uniqueness: { case_sensitive: true }
 end

@@ -21,5 +21,68 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'association' do
+    describe 'has_many tasks' do
+      it { expect(User.reflect_on_association(:tasks).macro).to eq :has_many }
+    end
+
+    describe 'has_many connections' do
+      it { expect(User.reflect_on_association(:connections).macro).to eq :has_many }
+    end
+
+    describe 'dependent: :destroy' do
+      let!(:user) { create(:user, :with_two_tasks) }
+
+      it { expect { user.destroy }.to change { Connection.count }.by(-2) }
+      it { expect { user.destroy }.to change { Task.count }.by(0) }
+    end
+  end
+
+  describe 'validats email' do
+    subject { user.valid? }
+    let(:user) { build :user, email: email }
+
+    describe 'presense' do
+      context 'email == ""' do
+        let(:email) { '' }
+
+        it do
+          is_expected.to eq false
+          expect(user.errors[:email]).to eq ["を入力してください"]
+        end
+      end
+
+      context 'email is "test@example.com"' do
+        let(:email) { 'test@example.com' }
+
+        it { is_expected.to eq true }
+      end
+
+      describe 'uniquness' do
+        subject { user.valid? }
+        let!(:user_one) { create(:user, email: "test@example.com") }
+        let(:user) { build(:user, email: email) }
+
+        context "same" do
+          let(:email) { 'test@example.com' }
+
+          it do
+            is_expected.to eq false
+            expect(user.errors[:nemail]).to eq []
+            # expect(user.errors[:name]).to eq ["はすでに存在します"]
+          end
+        end
+
+        context "uppercase" do
+          let(:email) { 'TEST@example.com' }
+
+          it do
+            is_expected.to eq false
+            expect(user.errors[:nemail]).to eq []
+            # expect(user.errors[:nemail]).to eq ["はすでに存在します"]
+          end
+        end
+      end
+    end
+  end
 end

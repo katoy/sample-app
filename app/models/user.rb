@@ -24,9 +24,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :connections
-  has_many :tasks, through: :connections, dependent: :destroy
-
+  has_many :connections, dependent: :destroy
+  has_many :tasks, through: :connections
   validates :email,
     presence: true, uniqueness: { case_sensitive: false }
 end
