@@ -57,6 +57,12 @@ group :development do
   gem 'rubocop-rspec'
 
   gem 'annotate'
+  gem 'rack-mini-profiler', require: false
+  gem 'memory_profiler'
+  gem 'flamegraph'
+  gem 'stackprof'
+
+  gem "metric_fu", require: false
 end
 
 group :test do
