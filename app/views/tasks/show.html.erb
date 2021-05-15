@@ -30,6 +30,11 @@
       <% end %>
     </div>
   </p>
+  <p>
+  <% @task.users.each do |user|%>
+    <%= user.email %><br>
+  <% end%>
+  </p>
 </div>
 <div class="card-footer">
   <%= link_to '　戻る　', tasks_path, class:"btn btn-outline-primary" %>

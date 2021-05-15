@@ -17,7 +17,7 @@
 #
 FactoryBot.define do
   factory :task do
-    sequence(:name) { |n| "task_#{n}" }
+    sequence(:name) { |n| "task_#{format('%04d', n)}" }
     status { false }
   end
 

@@ -24,7 +24,7 @@ FactoryBot.define do
       pw { 'guest1234' }
     end
 
-    sequence(:email) { |n| "guest#{n}@example.com" }
+    sequence(:email) { |n| "guest#{format('%04d', n)}@example.com" }
     password { pw }
     password_confirmation { pw }
   end

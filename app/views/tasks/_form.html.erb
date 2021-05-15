@@ -22,6 +22,14 @@
           <%= form.label :終了, class:"form-check-label" %>
         </div>
       </div>
+      <div class="form-group col-sm-6">
+        <b>ユーザー：</b>
+        <div id="users" class="form-check">
+          <%= collection_check_boxes(:task, :user_ids, User.all, :id, :email, include_hidden: false) do |u| %>
+            <%= u.label {u.check_box + u.text} %>
+          <% end %>
+        </div>
+      </div>
     </div>
     <div class="card-footer">
       <%= form.submit "　保存　", class:"btn btn-primary" %>

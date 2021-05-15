@@ -326,6 +326,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     stackprof (0.2.17)
+    stripe (5.32.1)
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -388,6 +389,7 @@ DEPENDENCIES
   spring-commands-rspec
   spring-watcher-listen (~> 2.0.0)
   stackprof
+  stripe
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)
