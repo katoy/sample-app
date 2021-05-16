@@ -16,6 +16,7 @@
     </div>
   </div><!-- /.container-fluid -->
 </section>
+
 <!-- テーブル -->
 <section class="content">
   <div class="container-fluid">
@@ -31,6 +32,7 @@
                   <th width="20%">ステータス</th>
                   <th width="40%">
                     <%= link_to '登録', new_task_path, class:"btn btn-outline-primary btn-sm" %>
+                    <%= link_to 'ＣＳＶ出力', tasks_path(format: :csv), class:"btn btn-outline-dark btn-sm" %>
                   </th>
                 </tr>
               </thead>

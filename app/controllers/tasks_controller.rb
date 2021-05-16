@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 class TasksController < ApplicationController
+  require 'csv'
+
   before_action :authenticate_user!
   before_action :set_task, only: %i[show edit update destroy]
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.all.order(id: :DESC)
+    respond_to do |format|
+      format.html
+      format.csv { |_csv| send_tasks_csv(@tasks) }
+    end
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -60,6 +66,7 @@ class TasksController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_task
     @task = Task.find(params[:id])
@@ -68,5 +75,15 @@ class TasksController < ApplicationController
   # Only allow a list of trusted parameters through.
   def task_params
     params.require(:task).permit(:name, :status, user_ids: [])
+  end
+
+  def send_tasks_csv(tasks)
+    csv_data = CSV.generate do |csv|
+      csv << %w[id 名前 ステータス]
+      tasks.each do |task|
+        csv << [task.id, task.name, task.status]
+      end
+    end
+    send_data(csv_data, filename: 'tasks.csv')
   end
 end

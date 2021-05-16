@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'csv'
+require 'fileutils'
+
 RSpec.describe 'sample', type: :system, js: true do
   let(:user_email) { 'guet@examole.com' }
   let(:user_password) { 'guest1234' }
@@ -22,5 +25,29 @@ RSpec.describe 'sample', type: :system, js: true do
     visit root_path
     # わざと失敗させてみる
     expect(page).to have_content 'こんばんは'
+  end
+
+  describe 'download' do
+    let!(:tasks) { create_list :task, 2 }
+    let(:csv_file_path) { '/tmp/downloads/tasks.csv' }
+    let(:expected_csv) {
+      [
+        ['id', '名前', 'ステータス'],
+        [tasks[1].id.to_s, 'task_0002', 'false'],
+        [tasks[0].id.to_s, 'task_0001', 'false']
+      ]
+    }
+
+    before(:each) do
+      Dir.chdir '/tmp/downloads'
+      FileUtils.rm_f(csv_file_path)
+    end
+
+    scenario 'download csv' do
+      visit tasks_path(format: :csv)
+      sleep 3 # ダウンロードが終わるのを少し待つ。
+      expect(File.exist?(csv_file_path)).to match true
+      expect(CSV.read(csv_file_path, headers: true).to_a).to eq expected_csv
+    end
   end
 end
