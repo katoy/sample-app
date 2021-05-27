@@ -23,8 +23,8 @@ RSpec.describe 'sample', type: :system, js: true do
   scenario 'sample failer scenario' do
     # tmp/scrennshots/ に失敗時のスクリーンショットが保存される、
     visit root_path
-    # わざと失敗させてみる
-    expect(page).to have_content 'こんばんは'
+    # expect(page).to have_content 'こんばんは' # わざと失敗させてみる
+    expect(page).to have_content 'こんにちは'
   end
 
   describe 'download' do
@@ -33,8 +33,8 @@ RSpec.describe 'sample', type: :system, js: true do
     let(:expected_csv) {
       [
         ['id', '名前', 'ステータス'],
-        [tasks[1].id.to_s, 'task_0002', 'false'],
-        [tasks[0].id.to_s, 'task_0001', 'false']
+        [tasks[1].id.to_s, tasks[1].name, 'false'],
+        [tasks[0].id.to_s, tasks[0].name, 'false']
       ]
     }
 

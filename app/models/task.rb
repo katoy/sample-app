@@ -20,6 +20,6 @@ class Task < ApplicationRecord
   has_many :users, through: :connections
 
   validates :name,
-    presence: true, length: { in: 1..100 },
-    uniqueness: { case_sensitive: true }
+            presence: true, length: { in: 1..100 },
+            uniqueness: { case_sensitive: true }
 end

@@ -24,16 +24,16 @@ FactoryBot.define do
       pw { 'guest1234' }
     end
 
-    sequence(:email) { |n| "guest#{format('%04d', n)}@example.com" }
+    sequence(:email) { |n| "guest_#{format('%04d', n)}@example.com" }
     password { pw }
     password_confirmation { pw }
   end
 
   trait :with_one_task do
-    tasks { build_list(:task, 1) }
+    tasks { create_list(:task, 1) }
   end
 
   trait :with_two_tasks do
-    tasks { build_list(:task, 2) }
+    tasks { create_list(:task, 2) }
   end
 end

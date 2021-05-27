@@ -48,7 +48,7 @@ RSpec.describe User, type: :model do
 
         it do
           is_expected.to eq false
-          expect(user.errors[:email]).to eq ["を入力してください"]
+          expect(user.errors[:email]).to eq ['を入力してください']
         end
       end
 
@@ -60,10 +60,10 @@ RSpec.describe User, type: :model do
 
       describe 'uniquness' do
         subject { user.valid? }
-        let!(:user_one) { create(:user, email: "test@example.com") }
+        let!(:user_one) { create(:user, email: 'test@example.com') }
         let(:user) { build(:user, email: email) }
 
-        context "same" do
+        context 'same' do
           let(:email) { 'test@example.com' }
 
           it do
@@ -73,7 +73,7 @@ RSpec.describe User, type: :model do
           end
         end
 
-        context "uppercase" do
+        context 'uppercase' do
           let(:email) { 'TEST@example.com' }
 
           it do

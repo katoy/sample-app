@@ -16,118 +16,208 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/tasks", type: :request do
-  # Task. As you add validations to Task, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+RSpec.describe '/tasks', type: :request do
+  let(:user) { create :user }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  shared_examples :check_need_login do
+    it 'return 302, before login' do
+      send target_method, *target_url
+      expect(response.status).to eq 302
+    end
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Task.create! valid_attributes
-      get tasks_url
-      expect(response).to be_successful
+    it 'return 200' do
+      sign_in user
+      send target_method, *target_url
+      expect(response.status).to eq target_status
     end
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      task = Task.create! valid_attributes
-      get task_url(task)
-      expect(response).to be_successful
-    end
-  end
+  describe 'GET /index' do
+    let(:target_method) { :get }
+    let(:target_url) { [tasks_url] }
+    let(:target_status) { 200 }
+    let!(:task) { create :task }
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_task_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "render a successful response" do
-      task = Task.create! valid_attributes
-      get edit_task_url(task)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Task" do
-        expect {
-          post tasks_url, params: { task: valid_attributes }
-        }.to change(Task, :count).by(1)
-      end
-
-      it "redirects to the created task" do
-        post tasks_url, params: { task: valid_attributes }
-        expect(response).to redirect_to(task_url(Task.last))
-      end
+    describe 'need login' do
+      include_examples :check_need_login
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Task" do
-        expect {
-          post tasks_url, params: { task: invalid_attributes }
-        }.to change(Task, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post tasks_url, params: { task: invalid_attributes }
-        expect(response).to be_successful
+    describe 'after login' do
+      it 'show name of latest task' do
+        sign_in user
+        get tasks_url
+        expect(response.body).to include(Task.last.name)
       end
     end
   end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+  describe 'GET /show' do
+    let(:target_method) { :get }
+    let(:target_url) { [task_url(task)] }
+    let(:target_status) { 200 }
+    let!(:task) { create :task }
 
-      it "updates the requested task" do
-        task = Task.create! valid_attributes
-        patch task_url(task), params: { task: new_attributes }
-        task.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the task" do
-        task = Task.create! valid_attributes
-        patch task_url(task), params: { task: new_attributes }
-        task.reload
-        expect(response).to redirect_to(task_url(task))
-      end
+    describe 'need login' do
+      include_examples :check_need_login
     end
 
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        task = Task.create! valid_attributes
-        patch task_url(task), params: { task: invalid_attributes }
-        expect(response).to be_successful
+    describe 'after login' do
+      before do
+        sign_in user
+        get task_url(task)
+      end
+
+      it 'renders a successful response' do
+        expect(response.body).to include(task.name)
       end
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested task" do
-      task = Task.create! valid_attributes
-      expect {
-        delete task_url(task)
-      }.to change(Task, :count).by(-1)
+  describe 'GET /new' do
+    let(:target_method) { :get }
+    let(:target_url) { [new_task_url] }
+    let(:target_status) { 200 }
+
+    describe 'need login' do
+      include_examples :check_need_login
+    end
+  end
+
+  describe 'GET /edit' do
+    let(:target_method) { :get }
+    let(:target_url) { [edit_task_url(task)] }
+    let(:target_status) { 200 }
+    let!(:task) { create :task }
+
+    describe 'need login' do
+      include_examples :check_need_login
     end
 
-    it "redirects to the tasks list" do
-      task = Task.create! valid_attributes
-      delete task_url(task)
-      expect(response).to redirect_to(tasks_url)
+    describe 'after login' do
+      before do
+        sign_in user
+        get edit_task_url(task)
+      end
+
+      it 'render a successful response' do
+        expect(response.body).to include(task.name)
+      end
+    end
+  end
+
+  describe 'POST /create' do
+    subject { post tasks_url, params: create_attributes }
+    let(:create_attributes) { { task: { name: "#{task.name}_copy", status: true } } }
+    let(:invalid_attributes) { { task: { name: '' } } }
+    let(:target_method) { :patch }
+    let(:target_url) { [task_url(task), { params: create_attributes }] }
+    let(:target_status) { 302 }
+    let!(:task) { create :task }
+
+    describe 'need login' do
+      include_examples :check_need_login
+    end
+
+    describe 'after login' do
+      before { sign_in user }
+
+      context 'with valid parameters' do
+        it 'creates a new Task' do
+          expect do
+            subject
+          end.to change(Task, :count).by(1)
+        end
+
+        it 'redirects to the created task' do
+          subject
+          expect(response).to redirect_to(task_url(Task.last))
+        end
+      end
+
+      context 'with invalid parameters' do
+        it 'does not create a new Task' do
+          expect do
+            post tasks_url, params: invalid_attributes
+          end.to change(Task, :count).by(0)
+        end
+
+        it 'renders a successful response (i.e. to display the "new" template)' do
+          post tasks_url, params: invalid_attributes
+          expect(response.status).to eq 422
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /update' do
+    subject { patch task_url(task), params: new_attributes }
+    let(:update_attributes) { { task: { name: "#{task.name}_copy", status: true } } }
+    let(:invalid_attributes) { { task: { name: '' } } }
+    let(:target_method) { :patch }
+    let(:target_url) { [task_url(task), { params: update_attributes }] }
+    let(:target_status) { 302 }
+    let!(:task) { create :task }
+
+    describe 'need login' do
+      include_examples :check_need_login
+    end
+
+    describe 'after login' do
+      let(:new_attributes) { { task: { name: "#{task.name}_copy", status: true } } }
+      let(:invalid_attributes) { { task: { name: '' } } }
+      let!(:task) { create :task }
+
+      before { sign_in user }
+
+      context 'with valid parameters' do
+        it 'updates the requested task' do
+          subject
+          task.reload
+          expect(task.name).to eq new_attributes[:task][:name]
+          expect(task.status).to eq new_attributes[:task][:status]
+        end
+
+        it 'redirects to the task' do
+          subject
+          expect(response).to redirect_to(task_url(task))
+        end
+      end
+
+      context 'with invalid parameters' do
+        it 'redirects to the task' do
+          patch task_url(task), params: invalid_attributes
+          expect(response.status).to eq 422
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /destroy' do
+    let(:target_method) { :delete }
+    let(:target_url) { [task_url(task)] }
+    let(:target_status) { 302 }
+    let!(:task) { create :task }
+
+    describe 'need login' do
+      include_examples :check_need_login
+    end
+
+    describe 'after login' do
+      subject { delete task_url(task) }
+      let!(:task) { create :task }
+      before { sign_in user }
+
+      it 'destroys the requested task' do
+        expect do
+          subject
+        end.to change(Task, :count).by(-1)
+        expect(Task.where(name: task.name)).to eq []
+      end
+
+      it 'redirects to the tasks list' do
+        subject
+        expect(response).to redirect_to(tasks_url)
+      end
     end
   end
 end

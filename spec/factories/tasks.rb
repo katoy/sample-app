@@ -26,10 +26,10 @@ FactoryBot.define do
   end
 
   trait :with_one_user do
-    users { build_list(:user, 1) }
+    users { create_list(:user, 1) }
   end
 
   trait :with_two_users do
-    users { build_list(:user, 2) }
+    users { create_list(:user, 2) }
   end
 end
