@@ -45,7 +45,7 @@ RSpec.describe Task, type: :model do
 
         it do
           is_expected.to eq false
-          expect(task.errors[:name]).to eq ['を入力してください', 'は1文字以上で入力してください']
+          expect(task.errors[:name]).to eq %w[を入力してください は1文字以上で入力してください]
         end
       end
 
@@ -73,19 +73,19 @@ RSpec.describe Task, type: :model do
 
     describe 'uniquness' do
       subject { task.valid? }
-      let!(:task_one) { create(:task, name: "a") }
+      let!(:task_one) { create(:task, name: 'a') }
       let(:task) { build(:task, name: name) }
 
-      context "same" do
+      context 'same' do
         let(:name) { 'a' }
 
         it do
           is_expected.to eq false
-          expect(task.errors[:name]).to eq ["はすでに存在します"]
+          expect(task.errors[:name]).to eq ['はすでに存在します']
         end
       end
 
-      context "uppercase" do
+      context 'uppercase' do
         let(:name) { 'A' }
 
         it { is_expected.to eq true }

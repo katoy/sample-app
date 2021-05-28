@@ -17,7 +17,7 @@
 #
 class Task < ApplicationRecord
   has_many :connections, dependent: :destroy
-  has_many :users, through: :connections
+  has_many :users, -> { order(id: :DESC) }, through: :connections
 
   validates :name,
             presence: true, length: { in: 1..100 },

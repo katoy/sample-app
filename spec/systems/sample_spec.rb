@@ -30,13 +30,13 @@ RSpec.describe 'sample', type: :system, js: true do
   describe 'download' do
     let!(:tasks) { create_list :task, 2 }
     let(:csv_file_path) { '/tmp/downloads/tasks.csv' }
-    let(:expected_csv) {
+    let(:expected_csv) do
       [
-        ['id', '名前', 'ステータス'],
+        %w[id 名前 ステータス],
         [tasks[1].id.to_s, tasks[1].name, 'false'],
         [tasks[0].id.to_s, tasks[0].name, 'false']
       ]
-    }
+    end
 
     before(:each) do
       Dir.chdir '/tmp/downloads'

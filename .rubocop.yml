@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 # .rubocop.yml
 
 # rubocop config files for Ruby 2.7 / Rails 6+ project
@@ -31,9 +33,18 @@ AllCops:
     - 'tmp/**/*'
     - '.git/**/*'
     - 'app/views/**/*'
+    - 'Gemfile'
+    - 'config/**/*'
+
+Lint/EmptyBlock:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
 
 Layout/IndentationConsistency:
-  EnforcedStyle: 'indented_internal_methods'
+  # EnforcedStyle: 'indented_internal_methods'
+  EnforcedStyle: normal
 
 Layout/LineLength:
   Max: 120
@@ -41,6 +52,11 @@ Layout/LineLength:
 Metrics/BlockLength:
   Exclude:
     - 'Guardfile'
+    - 'spec/**/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'spec/**/*'
 
 Naming/FileName:
   Exclude:

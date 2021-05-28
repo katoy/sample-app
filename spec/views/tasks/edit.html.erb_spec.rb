@@ -4,13 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'tasks/edit', type: :view do
   before(:each) do
-    @task = assign(
-      :task,
-      Task.create!(
-        name:   'MyString',
-        status: false
-      )
-    )
+    @task = assign(:task, Task.create!(name: 'MyString', status: false))
   end
 
   it 'renders the edit task form' do

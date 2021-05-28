@@ -28,18 +28,18 @@ Capybara.register_driver :remote_chrome do |app|
   #   }
   # )
   caps = ::Selenium::WebDriver::Remote::Capabilities.chrome(
-    "goog:chromeOptions" => {
-      "args" => [
+    'goog:chromeOptions' => {
+      'args' => [
         '--no-default-browser-check',
         '--start-maximized',
         '--headless',
         '--disable-dev-shm-usage',
         '--whitelisted-ips'
       ],
-      "prefs" => {
-       'download.default_directory' => '/tmp/downloads',
-       'download.directory_upgrade' => true,
-       'download.prompt_for_download' => false
+      'prefs' => {
+        'download.default_directory' => '/tmp/downloads',
+        'download.directory_upgrade' => true,
+        'download.prompt_for_download' => false
       }
     }
   )

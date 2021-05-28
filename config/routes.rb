@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :users
   devise_scope :user do
@@ -8,4 +10,11 @@ Rails.application.routes.draw do
   root to: 'home#index'
   resources :tasks
   resources :charges
+
+  namespace 'api' do
+    namespace 'v1' do
+      resources :tasks, only: %i[index create update destroy show]
+      resources :users, only: %i[index create update destroy show]
+    end
+  end
 end

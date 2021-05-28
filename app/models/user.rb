@@ -25,7 +25,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :connections, dependent: :destroy
-  has_many :tasks, through: :connections
+  has_many :tasks, -> { order(id: :DESC) }, through: :connections
   validates :email,
-    presence: true, uniqueness: { case_sensitive: false }
+            presence: true, uniqueness: { case_sensitive: false }
 end

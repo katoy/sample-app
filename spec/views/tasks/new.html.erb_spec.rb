@@ -4,10 +4,13 @@ require 'rails_helper'
 
 RSpec.describe 'tasks/new', type: :view do
   before(:each) do
-    assign(:task, Task.new(
-      name: 'MyString',
-      status: false
-    ))
+    assign(
+      :task,
+      Task.new(
+        name: 'MyString',
+        status: false
+      )
+    )
   end
 
   it 'renders new task form' do
