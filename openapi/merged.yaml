@@ -1,0 +1,351 @@
+openapi: 3.0.3
+info:
+  title: sample_app
+  version: 1.0.0
+paths:
+  /api/v1/tasks:
+    get:
+      summary: index
+      tags:
+        - 'Api::V1::Task'
+      responses:
+        '200':
+          description: 全てのタスクの取得が正常終了
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        status:
+                          type: boolean
+                        users:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              email:
+                                type: string
+              example:
+                tasks:
+                  - id: 1986
+                    name: task_0003
+                    status: false
+                    users:
+                      - id: 2258
+                        email: guest_0006@example.com
+                      - id: 2257
+                        email: guest_0005@example.com
+                  - id: 1985
+                    name: task_0002
+                    status: false
+                    users:
+                      - id: 2256
+                        email: guest_0004@example.com
+                      - id: 2255
+                        email: guest_0003@example.com
+                  - id: 1984
+                    name: task_0001
+                    status: false
+                    users:
+                      - id: 2254
+                        email: guest_0002@example.com
+                      - id: 2253
+                        email: guest_0001@example.com
+    post:
+      summary: create
+      tags:
+        - 'Api::V1::Task'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    status:
+                      type: string
+                    user_ids:
+                      type: array
+                      items:
+                        type: string
+            example:
+              task:
+                name: xxx
+                status: 'false'
+                user_ids:
+                  - '2271'
+      responses:
+        '201':
+          description: タスクの登録が正常終了
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      status:
+                        type: boolean
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            email:
+                              type: string
+              example:
+                task:
+                  id: 1996
+                  name: xxx
+                  status: false
+                  users:
+                    - id: 2271
+                      email: guest_0019@example.com
+        '404':
+          description: 不正な params (no-exist user)　を指定した場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      detail:
+                        type: string
+              example:
+                errors:
+                  title: レコードが見つかりません
+                  detail: ID と一致する User レコードが見つかりません
+        '422':
+          description: 不正な params (name is empty) を指定した場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                  - Nameを入力してください
+                  - Nameは1文字以上で入力してください
+  '/api/v1/tasks/{id}':
+    get:
+      summary: show
+      tags:
+        - 'Api::V1::Task'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1987
+      responses:
+        '200':
+          description: 特定のタスクの取得が正常終了
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      status:
+                        type: boolean
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            email:
+                              type: string
+              example:
+                task:
+                  id: 1987
+                  name: task_0004
+                  status: false
+                  users:
+                    - id: 2260
+                      email: guest_0008@example.com
+                    - id: 2259
+                      email: guest_0007@example.com
+        '404':
+          description: 存在しないタスク id を指定した場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      detail:
+                        type: string
+              example:
+                errors:
+                  title: レコードが見つかりません
+                  detail: ID と一致する Task レコードが見つかりません
+    put:
+      summary: update
+      tags:
+        - 'Api::V1::Task'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 2003
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    status:
+                      type: string
+                    user_ids:
+                      type: array
+                      items:
+                        type: string
+            example:
+              task:
+                name: yyy
+                status: 'false'
+                user_ids:
+                  - '2294'
+      responses:
+        '200':
+          description: タスクの更新が正常終了
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      status:
+                        type: boolean
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            email:
+                              type: string
+              example:
+                task:
+                  id: 2003
+                  name: yyy
+                  status: false
+                  users:
+                    - id: 2294
+                      email: guest_0042@example.com
+        '404':
+          description: 存在しないタスク id を指定した場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      detail:
+                        type: string
+              example:
+                errors:
+                  title: レコードが見つかりません
+                  detail: ID と一致する Task レコードが見つかりません
+    delete:
+      summary: destroy
+      tags:
+        - 'Api::V1::Task'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 2009
+      responses:
+        '200':
+          description: タスクを削除が正常終了
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Success delete
+        '404':
+          description: 存在しないタスク id を指定した場合
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      detail:
+                        type: string
+              example:
+                errors:
+                  title: レコードが見つかりません
+                  detail: ID と一致する Task レコードが見つかりません

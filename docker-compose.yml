@@ -38,5 +38,62 @@ services:
     stdin_open: true
     tty: true
     command: bundle exec rails server -b 0.0.0.0
+
+  api-mock:
+    image: danielgtaylor/apisprout
+    profiles:
+      - swagger
+    ports:
+      - 8010:8000
+    volumes:
+      - ./openapi/merged.yaml:/merged.yaml
+    entrypoint: /usr/local/bin/apisprout /merged.yaml --watch
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    profiles:
+      - swagger
+    ports:
+      - 8011:8080
+    volumes:
+      - ./openapi/merged.yaml:/usr/share/nginx/html/merged.yaml
+    environment:
+      API_URL: merged.yaml
+  redoc:
+    image: redocly/redoc
+    profiles:
+      - swagger
+    ports:
+      - 8012:80
+    volumes:
+      - ./openapi/merged.yaml:/usr/share/nginx/html/merged.yaml
+    environment:
+      SPEC_URL: merged.yaml
+  swaggereditor:
+    image: swaggerapi/swagger-editor
+    profiles:
+      - swagger
+    ports:
+      - 8013:8080
+    volumes:
+      - ./openapi/:/usr/share/nginx/htmll
+    environment:
+      API_URL: merged.yaml
+  redoc-cli:
+    build: ./docker/redoc-cli
+    profiles:
+      - swagger
+    volumes:
+      - ./openapi:/data
+  swagger-merger:
+    build: ./docker/swagger-merger
+    profiles:
+      - swagger
+    volumes:
+      - ./docker/swagger-merger/watch.js:/watch.js
+      - ./openapi:/data
+    environment:
+      NODE_PATH: /usr/local/lib/node_modules
+    entrypoint: node /watch
+
 volumes:
   mysql-data:

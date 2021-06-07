@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class TasksController < ApplicationController
+    class TasksController < ApiController
       before_action :set_task, only: %i[show update destroy]
       skip_before_action :verify_authenticity_token
 
@@ -22,21 +22,20 @@ module Api
         if task.save
           render json: task, adapter: :json, status: 201
         else
-          render json: { error: task.errors }, status: 422
+          render json: { errors: task.errors.full_messages }, status: 422
         end
       end
 
       def destroy
         @task.destroy
-        # render json: { status: 'SUCCESS', message: 'Deleted the task', data: @task }
-        render json: { msg: 'Success delete' }, status: 200
+        render json: { message: 'Success delete' }, status: 200
       end
 
       def update
         if @task.update(task_params)
           render json: @task, adapter: :json, status: 200
         else
-          render json: { error: @task.errors }, status: 422
+          render json: { errors: @task.errors.full_messages }, status: 422
         end
       end
 
