@@ -23,6 +23,6 @@ jobs:
     - name: Run RSpec
       shell: bash
       run:  |
-        docker-compose run app bundle exec rspec
+        docker-compose run --rm app bash -c "bundle exec rails db:create db:migrate && bundle exec rspec"
       env:
         RAILS_ENV: test
