@@ -80,13 +80,10 @@ end
 group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'simplecov-rcov'
 
-  gem 'rspec-rails'
   gem 'rspec-openapi'
-
-  gem 'simplecov', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
