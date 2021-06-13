@@ -18,13 +18,13 @@ jobs:
         docker-compose build
     - name: Setup bundles
       run: |
-        docker-compose run --rm app bash -c "bundle install"
+        docker-compose run --rm app bundle install
     - name: Setup Database
       run: |
-        docker-compose run --rm app bash -c "bundle exec rails db:create db:migrate"
+        docker-compose run --rm app bundle exec rails db:create db:migrate
     - name: Run RSpec
       run:  |
-        docker-compose run --rm app bash -c "bundle exec rspec"
+        docker-compose run --rm app bundle exec rspec
 
     - uses: actions/download-artifact@v2
       if: always()
