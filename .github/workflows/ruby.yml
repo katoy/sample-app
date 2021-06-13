@@ -17,12 +17,8 @@ jobs:
         docker-compose run app yarn upgrade
         # イメージのビルド
         docker-compose build
-      env:
-        RAILS_ENV: test
 
     - name: Run RSpec
       shell: bash
       run:  |
         docker-compose run --rm app bash -c "bundle exec rails db:create db:migrate && bundle exec rspec"
-      env:
-        RAILS_ENV: test
