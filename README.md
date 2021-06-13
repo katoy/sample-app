@@ -2,6 +2,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/katoy/sample-app/badge.svg?branch=main)](https://coveralls.io/github/katoy/sample-app?branch=main)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=katoy_sample-app&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=katoy_sample-app)
+[![Ruby](https://github.com/katoy/sample-app/actions/workflows/ruby.yml/badge.svg)](https://github.com/katoy/sample-app/actions/workflows/ruby.yml)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
