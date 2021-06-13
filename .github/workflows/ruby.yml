@@ -21,7 +21,8 @@ jobs:
         docker-compose run --rm app bundle install
     - name: Setup Database
       run: |
-        docker-compose run --rm app bundle exec rails db:create db:migrate
+        docker-compose run --rm app bundle exec rails db:create
+        docker-compose run --rm app bundle exec rails db:migrate
     - name: Run RSpec
       run:  |
         docker-compose run --rm app bundle exec rspec
