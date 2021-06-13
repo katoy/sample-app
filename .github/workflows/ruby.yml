@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -13,12 +12,23 @@ jobs:
       shell: bash
       run: |
         # 必要なアップデート
-        docker-compose run app yarn install --check-files
-        docker-compose run app yarn upgrade
+        docker-compose run -rm app yarn install --check-files
+        docker-compose run -rm app yarn upgrade
         # イメージのビルド
         docker-compose build
-
+    - name: Setup bundles
+      run: bundle install
+    - name: Setup Database
+      run: |
+        docker-compose run --rm app bundle exec rails db:create
+        docker-compose run --rm app bundle exec rails db:migrate
     - name: Run RSpec
       shell: bash
       run:  |
-        docker-compose run --rm app bash -c "bundle exec rails db:create db:migrate && bundle exec rspec"
+        docker-compose run --rm app bundbundle exec rspec
+
+    - uses: actions/download-artifact@v2
+      if: always()
+      with:
+        name: sample-app-codecoverage
+        path: coverage
