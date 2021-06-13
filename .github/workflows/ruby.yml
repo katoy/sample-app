@@ -17,12 +17,12 @@ jobs:
         # イメージのビルド
         docker-compose build
     - name: Setup bundles
-      run: bundle install
+      run: |
+        docker-compose run --rm app bash -c "bundle install"
     - name: Setup Database
       run: |
         docker-compose run --rm app bash -c "RAILS_ENV=test bundle exec rails db:create db:migrate"
     - name: Run RSpec
-      shell: bash
       run:  |
         docker-compose run --rm app bash -c "bundle exec rspec"
 
