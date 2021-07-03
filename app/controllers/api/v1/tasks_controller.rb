@@ -10,6 +10,8 @@ module Api
         # @tasks = Task.order(created_at: :DESC).preload(:users).paginate(page: params[:page])
         # render json: @tasks, meta: pagination(@tasks), adapter: :json
         @tasks = Task.order(created_at: :DESC).preload(:users)
+        # 次の様にすると、 M+! 問題が起こる。rspe が FAIL する
+        # @tasks = Task.order(created_at: :DESC)
         render json: @tasks, adapter: :json
       end
 
