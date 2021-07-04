@@ -22,9 +22,9 @@ services:
     ports:
       - "8025:8025"
 
-  app:
+  app: &app
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: ash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
       SELENIUM_REMOTE_URL: http://chrome:4444/wd/hub
     volumes:

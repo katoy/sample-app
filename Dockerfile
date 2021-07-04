@@ -1,16 +1,18 @@
-FROM ruby:2.7.3
+FROM ruby:2.7.3-alpine3.13
+
+ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc g++ libc-dev mysql-client mysql-dev nodejs tzdata yarn git" \
+    DEV_PACKAGES="build-base curl-dev" \
+    HOME=/${WORKDIR} \
+    LANG=C.UTF-8 \
+    TZ=Asia/Tokyo
 
 RUN set -ex && \
-    apt-get update -qq && \
-    apt-get install -y && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get update -qq && \
-    apt-get install -y nodejs && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update -qq && \
-    apt-get install -y yarn && \
-    apt-get install -y vim
+    apk update && \
+    apk upgrade && \
+    apk add --no-cache ${RUNTIME_PACKAGES} && \
+    apk add --virtual build-dependencies --no-cache ${DEV_PACKAGES} && \
+    apk add vim && \
+    apk del build-dependencies
 
 ENV APP_ROOT /sample_app
 RUN mkdir $APP_ROOT
@@ -19,7 +21,7 @@ WORKDIR $APP_ROOT
 COPY Gemfile $APP_ROOT
 COPY Gemfile.lock $APP_ROOT
 
-RUN bundle install
+RUN bundle install -j4
 
 COPY . $APP_ROOT
 
