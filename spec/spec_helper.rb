@@ -19,7 +19,7 @@
 require 'coveralls'
 require 'simplecov'
 
-# Coveralls.wear!
+Coveralls.wear!
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
