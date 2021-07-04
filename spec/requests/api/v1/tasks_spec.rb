@@ -18,6 +18,9 @@ describe 'TaskAPI' do
       'detail' => 'ID と一致する User レコードが見つかりません'
     }
   end
+  let(:expect_invalid_name) do
+    ['Nameを入力してください', 'Nameは1文字以上で入力してください']
+  end
 
   describe 'get /api/v1/tasks' do
     it '全てのタスクの取得が正常終了' do
@@ -71,7 +74,7 @@ describe 'TaskAPI' do
         post '/api/v1/tasks', params: params
       end.to change { Task.count }.by(0)
       expect(response.status).to eq 422
-      expect(json['errors']).to eq ['Nameを入力してください', 'Nameは1文字以上で入力してください']
+      expect(json['errors']).to eq expect_invalid_name
     end
 
     it '不正な params (no-exist user)　を指定した場合' do
@@ -104,6 +107,15 @@ describe 'TaskAPI' do
       end.to change { Task.count }.by(0)
       expect(response.status).to eq 404
       expect(json['errors']).to eq expect_json_notfound
+    end
+
+    it 'name に空を指定した場合' do
+      params[:task][:name] = ''
+      expect do
+        put "/api/v1/tasks/#{tasks[0].id}", params: params
+      end.to change { Task.count }.by(0)
+      expect(response.status).to eq 422
+      expect(json['errors']).to eq expect_invalid_name
     end
   end
 
