@@ -269,6 +269,7 @@ GEM
       parser (~> 3.0.0)
       psych (~> 3.1)
       rainbow (>= 2.0, < 4.0)
+    regexp-examples (1.5.1)
     regexp_parser (2.1.1)
     require_all (3.0.0)
     responders (3.0.1)
@@ -282,6 +283,9 @@ GEM
     rexml (3.2.5)
     roodi (5.0.0)
       ruby_parser (~> 3.2, >= 3.2.2)
+    route_mechanic (0.2.1)
+      actionpack (>= 4.2, < 6.2)
+      regexp-examples (>= 1.5, < 2)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -332,7 +336,7 @@ GEM
     ruby-progressbar (1.11.0)
     ruby_parser (3.16.0)
       sexp_processor (~> 4.15, >= 4.15.1)
-    rubyzip (2.3.1)
+    rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -435,6 +439,7 @@ DEPENDENCIES
   rack-cors
   rack-mini-profiler
   rails (~> 6.0.3, >= 6.0.3.6)
+  route_mechanic
   rspec-openapi
   rspec-rails
   rubocop
@@ -442,6 +447,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  rubyzip (= 2.3.0)
   sass-rails (= 6)
   selenium-webdriver
   simplecov

@@ -81,12 +81,14 @@ group :development do
 end
 
 group :test do
+  gem 'rubyzip', '2.3.0'
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'simplecov-rcov'
 
   gem 'rspec-openapi'
+  gem 'route_mechanic'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
