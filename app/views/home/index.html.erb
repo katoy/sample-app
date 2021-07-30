@@ -1,3 +1,11 @@
 <div style="border: solid; margin: 20px; width: 100px;">
   こんにちは
 </div>
+
+<div>
+  <% if current_user.otp_required_for_login %>
+    <%= button_to "Disable 2FA", two_factor_auth_path, method: :delete %>
+  <% else %>
+    <%= button_to "Enable 2FA", new_two_factor_auth_path, method: :get %>
+  <% end %>
+</div>
