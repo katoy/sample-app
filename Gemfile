@@ -88,7 +88,7 @@ group :test do
   gem 'simplecov-rcov'
 
   gem 'rspec-openapi'
-  gem 'route_mechanic'
+  # gem 'route_mechanic'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
