@@ -10,7 +10,10 @@ RSpec.describe 'sample', type: :system, js: true do
     create(:user, email: user_email, password: user_password, password_confirmation: user_password)
   end
 
-  before { login user_email, user_password }
+  before do
+    page.driver.browser.manage.window.resize_to(1200, 800)
+    login user_email, user_password
+  end
 
   scenario 'sample scenario' do
     # ルートページ内容
