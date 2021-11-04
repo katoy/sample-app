@@ -4,7 +4,7 @@ require 'csv'
 require 'fileutils'
 
 RSpec.describe 'sample', type: :system, js: true do
-  let(:user_email) { 'guet@examole.com' }
+  let(:user_email) { 'guet@example.com' }
   let(:user_password) { 'guest1234' }
   let!(:user) do
     create(:user, email: user_email, password: user_password, password_confirmation: user_password)
