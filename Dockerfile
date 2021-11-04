@@ -1,6 +1,6 @@
 FROM ruby:2.7.3-alpine3.13
 
-ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc g++ libc-dev mysql-client mysql-dev nodejs tzdata yarn git" \
+ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc g++ libc-dev mysql-client mysql-dev nodejs tzdata npm yarn git" \
     DEV_PACKAGES="build-base curl-dev" \
     HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
