@@ -34,3 +34,6 @@ htt@://localhost:3000/user にアクセスしてサインアップします。
 
 <https://qiita.com/watame/items/c5afc227bf7029826762>
 【Rails】ModelのPKをULIDに変更する
+
+<https://qiita.com/jnchito/items/e23b1facc72bd86234b6>
+Rails 6.0で"Uniqueness validator will no longer enforce case sensitive comparison in Rails 6.1."という警告が出たときの対処法
