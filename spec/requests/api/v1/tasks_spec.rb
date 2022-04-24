@@ -9,7 +9,7 @@ describe 'TaskAPI' do
   let(:expect_json_notfound) do
     {
       'title' => 'レコードが見つかりません',
-      'detail' => 'ID と一致する Task レコードが見つかりません',
+      'detail' => 'ID と一致する Task レコードが見つかりません'
     }
   end
   let(:expect_json_notfound_user) do
@@ -19,7 +19,7 @@ describe 'TaskAPI' do
     }
   end
   let(:expect_invalid_name) do
-    ['Nameを入力してください', 'Nameは1文字以上で入力してください']
+    %w[Nameを入力してください Nameは1文字以上で入力してください]
   end
 
   describe 'get /api/v1/tasks' do
@@ -43,7 +43,7 @@ describe 'TaskAPI' do
     end
 
     it '存在しないタスク id を指定した場合' do
-      no_exist_id = Task.order(:id).last.id + 1
+      no_exist_id = 'x' + Task.order(:id).last.id[1..]
       get "/api/v1/tasks/#{no_exist_id}"
       expect(response.status).to eq 404
       expect(json['errors']).to eq expect_json_notfound
@@ -79,7 +79,8 @@ describe 'TaskAPI' do
 
     it '不正な params (no-exist user)　を指定した場合' do
       expect do
-        params = { task: { name: '', status: false, user_ids: [User.order(:id).last.id + 1] } }
+        'x' + User.order(:id).last.id[1..]
+        params = { task: { name: '', status: false, user_ids: ['x' + User.order(:id).last.id[1..]] } }
         post '/api/v1/tasks', params: params
       end.to change { Task.count }.by(0)
       expect(response.status).to eq 404
@@ -101,7 +102,7 @@ describe 'TaskAPI' do
     end
 
     it '存在しないタスク id を指定した場合' do
-      no_exist_id = Task.order(:id).last.id + 1
+      no_exist_id = 'x' + Task.order(:id).last.id[1..]
       expect do
         put "/api/v1/tasks/#{no_exist_id}", params: params
       end.to change { Task.count }.by(0)
@@ -129,7 +130,7 @@ describe 'TaskAPI' do
     end
 
     it '存在しないタスク id を指定した場合' do
-      no_exist_id = Task.order(:id).last.id + 1
+      no_exist_id = 'x' + Task.order(:id).last.id[1..]
       expect do
         delete "/api/v1/tasks/#{no_exist_id}"
       end.to change { Task.count }.by(0)

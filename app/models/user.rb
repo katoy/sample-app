@@ -4,14 +4,14 @@
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
-#  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(255)      default(""), not null
-#  remember_created_at    :datetime
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string(255)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  id(ID)                   :string(26)       not null, primary key
+#  email                    :string(255)      default(""), not null
+#  encrypted_password       :string(255)      default(""), not null
+#  remember_created_at      :datetime
+#  reset_password_sent_at   :datetime
+#  reset_password_token     :string(255)
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
 #
 # Indexes
 #
@@ -26,6 +26,8 @@ class User < ApplicationRecord
 
   has_many :connections, dependent: :destroy
   has_many :tasks, -> { order(id: :DESC) }, through: :connections
+
+  validates :id, uniqueness: { case_sensitive: true }
   validates :email,
             presence: true, uniqueness: { case_sensitive: false }
 end

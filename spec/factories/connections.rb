@@ -4,11 +4,11 @@
 #
 # Table name: connections
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  task_id    :bigint           not null
-#  user_id    :bigint           not null
+#  id(ID)       :string(26)       not null, primary key
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  task_id      :string(26)
+#  user_id      :string(26)
 #
 # Indexes
 #
