@@ -1,0 +1,29 @@
+alias a=alias
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
+
+alias ls="ls -F"
+alias ll='ls -lagtF'
+alias ag="ag --pager 'less -R'"
+
+alias dc_build_nocash='docker-compose build --no-cache'
+alias dc_up='docker-compose up'
+alias dc_down='docker-compose down'
+alias dc_run_rm='docker-compose run --rm'
+alias dc_exec='docker-compose exec'
+alias dc_ps='docker-compose ps'
+alias dc_logs='docker-compose logs'
+alias dc_restart='docker-compose restart'
+
+alias d_ps='docker ps'
+alias d_exec_it='docker exec -it'
+
+alias d_c_ls='docker container ls'
+alias d_attach='docker attach'
+
+alias d_system_prune='docker system prune -a'
+alias d_volune_prune='docker volumes prune'
+
+# See http://neos21.hatenablog.com/entry/2018/11/05/080000
+alias chrome='open -a "Google Chrome"'
