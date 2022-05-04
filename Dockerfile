@@ -12,6 +12,7 @@ RUN set -ex && \
     apk add --no-cache ${RUNTIME_PACKAGES} && \
     apk add --virtual build-dependencies --no-cache ${DEV_PACKAGES} && \
     apk add vim && \
+    apk add -u yarn && \
     apk del build-dependencies
 
 ENV APP_ROOT /sample_app
